@@ -93,6 +93,7 @@
 
     # List [ left --------> right Left & Right Push logic ]
 
+        * ordered collection of strings.Duplicates allowed     
         * lpush friends Akilan Alex Annachi Jegan Kumar - Akilan value will be in the last of this list
         * lrange friends 0 -1 - returns
             1) "Kumar"
@@ -124,7 +125,7 @@
             7) "Akilan"
 
     # SETS - Unique values
-
+        * UnOrdered collection of strings.Duplication is not allowed and not nested
         * sadd num 1 2 3 4,4 - Add in the set [ removes duplicates ]
         * smembers num - returns 1,2,3,4
         * sadd num 7 - adds 7 in the set
@@ -151,12 +152,47 @@
             4) "akilan"
         * zcard friends - returns 4 count the sorted sets
         * zcount friends 10 25 - returns 2 [ mathan slevan below 26] 
+        * ZREMRANGEBYRANK friends 0 0 - removes lowest one [ selvan ]
         * zrem friends ram - removes from the sorted list
         * zrank friends akilan - returns 3 [ last value ]
         * zrevrank friends akilan - reverse rank returns 0
         * zscore friends akilan - returns score value 30
         * zadd friends 30 alex - can have same score in the sorted set [ it will show the same rank]
         * zscorebyrank friends 28 30 - returns akilan & alex [ min age 28 & max age 30 ]
+        * ZRANGEBYSCORE q-1 0 40 withscores
+
+    # Performance Big O notation:
+
+        * Each redis command has Big O notation. Check the document. It shows the time of execution. Needs to consider for perfomance issues
+
+    # Capped Collections and Set operations
+
+        * rpush friends Akilan Alex Annachi Jegan Kumar
+        * lrange friends 0 -1
+            1) "Akilan"
+            2) "Alex"
+            3) "Annachi"
+            4) "Jegan"
+            5) "Kumar"
+        * ltrim friends 0 2 - Keep only top 3 friends
+        * lrange friends 0 -1
+            1) "Akilan"
+            2) "Alex"
+            3) "Annachi"
+
+
+        * zadd movie:kathi 500 akilan 500 annachi 500 jegan
+        * zadd movie:thupaki 500 akilan 500 annachi 500 alex
+        * zinterstore totalspent 2 movie:kathi movie:thupaki aggregate sum
+        * zrange totalspent 0 -1 withscores
+            1) "akilan"
+            2) "1000"
+            3) "annachi"
+            4) "1000"
+
+        
+
+
 
     # Publish & Subscribe
 
