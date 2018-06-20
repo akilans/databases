@@ -41,3 +41,26 @@
     * mongoexport - Exports json data
     * monfoimport - Imports json data
     * mongoimport --host localhost --port 27000 --username m103-admin --password m103-pass --db applicationData --collection products --authenticationDatabase admin /dataset/products.json
+
+# Replication
+
+    * Group of mongod
+    * Multiple copies of data in different servers. Main server called primary & remaining nodes called secondary nodes
+    * If failover happenes any one of secondary nodes will become primary by election
+    * Read/write operation happens in primary node & remaining secondary nodes get sysnced automatically
+    *  Binary based Replication - Primary & secondary nodes will be same OS & same version of mongodb. It is very fast & less data transfer
+    * Statement based Replication - Based on Oplog, statement getting executed on secondary nodes. Primary & secondary node can be any OS fine
+    * Limit of replica node is 50. max of 7 of these nodes participate in voting
+    
+    # Steps to configure replica set
+
+        * Go to master machine & create key file using openssl and chmod 600
+        * Edit config.yaml file add key file path under security. And also add replication settings [ Name ] in that config file
+        * Start mongod with this config file [ Primary ]
+        * Copy the key & config files to secondary nodes & start mongod
+        * Login into primary node mongo shell & run rs.initiate().[ This needs admin user login to mongo shell ]
+        * rs.status() - Check status of replica set
+        * rs.add("SECONDARY_NODE1_HOST:MONGOD_PORT") | rs.add("SECONDARY_NODE2_HOST:MONGOD_PORT")
+        * rs.isMaster() - Check which one is master and replication details
+        * rs.stepDown() - Force the master to step down to check how secondary node becomes primary node
+        * 
