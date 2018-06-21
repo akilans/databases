@@ -63,4 +63,16 @@
         * rs.add("SECONDARY_NODE1_HOST:MONGOD_PORT") | rs.add("SECONDARY_NODE2_HOST:MONGOD_PORT")
         * rs.isMaster() - Check which one is master and replication details
         * rs.stepDown() - Force the master to step down to check how secondary node becomes primary node
+    
+    # Replica set commands
+
+        * rs.status() - Get information about replica set status
+        * rs.isMaster() -  Shorter o/p [ members, which is primary and all ]
+        * db.serverStatus()['repl'] - rbid [ whic is not there in rs.isMaster() command ]
+        * rs.printReplicationInfo() - Oplog information
+        
+    # Oplogs
+
+        * All the statements captured here
+        * It has default size 5% of disk space. Once it full it starts to rewrite the statements. We can change the default size of this oplog 
         * 
