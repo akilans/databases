@@ -6,7 +6,7 @@
     * mongo driver inteacts with mongod and doing CRUD operations
     * Default data path is /data/db
     * Default port is 27017
-    * mongod --port 30000 --dbpath first_mongod --fork --logpath first_mongod/mongod.log
+    * mongod --port 30000 --dbpath first_mongod --fork --logpath first_mongod/mongod.log - To run mongodb in background task
     * mongo --port 30000
     * use newDB - automatically creates DB but it will not show dbs. It will list only after it has any aollection
     * index is used to search document from collection fast
@@ -75,4 +75,34 @@
 
         * All the statements captured here
         * It has default size 5% of disk space. Once it full it starts to rewrite the statements. We can change the default size of this oplog 
+    
+    # Read & Write in Replica Set
+
+        * Data created in primary replicated in secondaries
+        * We can't read data in secondary directly but if we set rs.slaveOk() then we can read data. But we never write any data in secodary mongodb
+        * If we shut down all the secondaries primary node becomes secondary so any application uses mongodb can't write any data
+
+    # Failover & Election
+
+        * Replica set must be odd number. For example 3,5,7 etc. In case of 4 node cluster if primary node stepdown 1 node vote for 1 node and another node for another node then it become tie. So again election will happen.It may repeat and not good for application
+        * We can set the prioroty to zero of secondary node so that it will not become primary
+    
+    # Write Concern
+
+        * Write concern level 0 - Don't wait for acknowlegement
+        * Write concern level 1 - Default one. wait for acknowlegement from Primary
+        * Write concern level >=2 - Wait for acknowlegement from primary & one or more secondary
+        * Majority - If 3 node cluster 2, If 5 cluster node is 3. No need to hard code the level value
+        * wtimeout - Mark as fail for particular timeout. Even the write is success within timeout duration then also it will mark it as failure
+        * J{true|False} - node commit the write before sending the acknowlegement
+
+    # Read Concern
+
+        * Local - Default
+        * Available - Sharded cluster
+        * Majority - Stronger Gurantee
+        * Linearizable - Good one
+        * Instead of reading data from primary we can make the application to read data from secondary by mentioning readPredf parameter
         * 
+
+    
