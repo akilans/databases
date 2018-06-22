@@ -103,6 +103,9 @@
         * Majority - Stronger Gurantee
         * Linearizable - Good one
         * Instead of reading data from primary we can make the application to read data from secondary by mentioning readPredf parameter
-        * 
+        * Primary - Default
+        * PrimaryPrefered
+        * Secondary
+        * SecondaryPrefered
 
     
