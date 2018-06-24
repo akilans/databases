@@ -173,7 +173,7 @@
             2) "Alex"
             3) "Annachi"
             4) "Jegan"
-            5) "Kumar"
+            5) "Kumar"Needs
         * ltrim friends 0 2 - Keep only top 3 friends
         * lrange friends 0 -1
             1) "Akilan"
@@ -190,9 +190,45 @@
             3) "annachi"
             4) "1000"
 
-        
+    # Attribute Search
+
+        * Object Inspection
+        * Faceted search
+        * Hashed Index
+
+        # Object Inspection : 
+
+            * It is traditional method. Get all the keys and loop through all the attributes and compare the value & return the value. It is not a efficient one. 
+
+            * If we have freinds set [key - akilan,alex,kumar] and need to return the friends who is staying in bangalore. We need to loop through all the friends keys and filter the location
+
+            * If we have more keys [more friends ] loop through all the keys consumes lot of time
 
 
+
+        # Faceting :
+
+            * Create another set with defined attributes in this case[friends.location].Intersect the the sets it returns the common values and filter the result
+
+            * If we have more attributes to filter [ location,age,job] then need to create more set for comparison
+
+        #  Hashed Index       
+
+    # Transactions
+
+        * Start with MULTI and enter the commands. It will be in the queue. EXEC is called to execute all the queued commands sequentially
+
+        * If any syntax errors redis throws an error and stops executing transactions
+
+        * DISCARD throws and clear all the queued commands
+
+        * Nested transactions not supported
+
+        * If suppose in the middle of modifying the key command is in the Queue and it got changed by external action redis tranaction executes the command. In case if you want to stop the action, then watch the key before starting transactions[MULTI]. It is called optimistic concurrency control
+
+    # Object Storage
+
+        * 
 
     # Publish & Subscribe
 
