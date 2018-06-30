@@ -108,4 +108,52 @@
         * Secondary
         * SecondaryPrefered
 
-    
+# Sharding
+
+    * Instead of keeping Documents in a single mongoDB server, it is distributed across mongodb instances. It is called shard cluster & horizontal scaling. Each distributed documents also stored in replicasets
+
+    * Mongos is getting and responding to client requests.Meta data maintained [ where to look document in a shard cluster ]
+
+    * Shard cluster is not recommended for all projects. If the project data more than 5TB and not able go for Vertical scaling then only we can go for Shard Cluster
+
+    * Client -> MongoS -> Config Servers [ Meta data for all documents] -> Connect to correct shard [ which is replicated to avoid data loss ]
+
+    # Steps to create shard cluster
+
+        * Create 3 config server with replica sets -- Role will be config server
+            * mongod -f csrs1.yaml 
+            * mongod -f csrs2.yaml
+            * mongod -f csrs3.yaml
+        * Create Mongos process
+            * mongos -f mongos.yaml
+        * Create shard cluster with replica sets - Role will be shard cluster
+            * mongod -f node1.yaml
+            * mongod -f node2.yaml
+            * mongod -f node3.yaml
+
+    * config DB has all the information about how dbs, collections, chunks are distributed. chunks is the main one. We should not write any data in config db
+
+    * Shard Keys -Immutable Indexed keys to distribute,query chunks of data
+    * sh.enableSharding("DBNAME");
+    * db.COLLECTION_NAME.createIndex({"COLLECTION_FIELD":1})
+    * sh.shardCollection("DB_NAME.COLLECTION_NAME",{"COLLECTION_FIELD":1})
+    * Shard possible for DB & Collection level
+    * Shard DB can't automatically sharding the collections
+    * We can have shard collection and unshard collection on the same db
+    * Choose shard key in efficient way [ High cardinality, Low frequency, Low Monotonically changed ]
+
+    * High cardinality - number of unique key values [ states of india - 30+ possible values. 30+ possible chunks . Days of week - 7 possible chunks, Boolean 2 possible chunks ]
+
+    * Frequency - In case of states of india - If we are going to store most datas of tamilnadu, all the details goes to same chunks. It leads to performance issue.So repetation of each unique keys should be less
+
+    * Monotonicaly - Timestamp is very unique but it keeps on increasing [ Range min max ]
+
+    * When read, specify the index key so it ll be fast to get data. Otherwise it has to collect it from all shard clusters
+
+    * Hashed Shard key - The underlying index key hashed and based on the hashed key the data is getting chunked & distributed on shard cluster. In case of timestamp it is very helpful but in other case the data now distributed all across the cluster. Querying the data takes time
+
+    # Create Shard Key
+        * sh.enableSharding("DB_NAME")
+        * db.COLLECTION_NAME.createIndex( { "KEY_NAME" : 1 } )
+        * sh.shardCollection("DB_NAME.COLLECTION_NAME", {"KEY_NAME" : 1 } )
+        
