@@ -1,5 +1,8 @@
 # Mongodb Basic cluster Admnistration Course - https://university.mongodb.com/
 
+mongo admin --host localhost:27000 --username m103-admin --password m103-pass
+
+
 # Basic Commands :
 
     * mongod - Daemon to write data into a disk
@@ -157,3 +160,39 @@
         * db.COLLECTION_NAME.createIndex( { "KEY_NAME" : 1 } )
         * sh.shardCollection("DB_NAME.COLLECTION_NAME", {"KEY_NAME" : 1 } )
         
+    # Chunks
+
+        * Default size is 64MB. We can change it. Based on shard key it get distributed across shard cluster
+        
+        * Config Chunks
+
+            * use config
+            * show collections
+            * db.chunks.findOne()
+            * db.settings.save({_id: "chunksize", value: 2})
+            * sh.status()
+            * db.chunks.find().pretty() - It lists chunks ranges [ We can see which ranges of chunks located on which shard]
+
+    # Balancing 
+
+        * balancer is responsible for even distribution of chunks on shard cluster
+
+    * All queries from handled by mongos. If it finds the shard key then it will direct the request to shard cluster for that. Else it will collect the response from all the shard cluster and merge together & give it to client
+
+    * db.products.find({"sku" : 1000000749 }).explain() - It explains how mongos is getting data. In this case sku is shard key. So it is a targetted query fetch data from a single shard
+
+    * db.products.find( { "name" : "Gods And Heroes: Rome Rising - Windows [Digital Download]" } ).explain() - Find data from non index key scatter queries. It fetches data from all the shard clusters and merge it together
+
+    # Configure & find it is a targetted query or Scattered Query
+
+        * mongoimport --drop /dataset/products.json --port 26000 -u "m103-admin" \
+-p "m103-pass" --authenticationDatabase "admin" \
+--db m103 --collection products
+
+        * use m103
+        * show collections
+        * db.products.createIndex({"sku":1})
+        * db.adminCommand({shardCollection: "m103.products", key: {sku: 1}})
+        * db.products.createIndex({"shippingWeight": 1})
+        * 
+
