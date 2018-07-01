@@ -230,6 +230,40 @@
 
         * 
 
+    # Inventory Control
+
+        * This explains how bus ticket booking system works. Start transaction by blocking number of seats. If any failure / timeout happens rollback to original one. Else conform booking and reduce the seats
+
+    # Bit Fields
+
+        * BITFIELD akilan set u8 0 29 - Key is akilan, u8 - 8bit unsigned value. 0 is offset
+
+        * BITFIELD akilan get u8 0 - Get tha value
+
+        * TYPE akilan - returns as string
+
+        * object encoding akilan - returns raw
+
+        * BITFIELD akilan incrby u8 0 1 - Increment value by 1
+
+        * get akilan - returns \x1e - hexadecimal value for 30
+
+    # Bit Arrays
+
+        * bitfield akilan set u8 #1 3
+
+        * bitfield akilan1 set u8 #1 2s
+
+        * bitpos akilan 1 - returns 14 [ 00000000 00000011 ]  offset not #0 , here #1 [ 16 bit data - from position 14 , bit 1 starts ]
+
+        * bitop or akilan2 akilan akilan1
+
+        * bitcount akilan - returns 2 [ 00000011 ]
+
+        * bitcount akilan1 - returns 1 [ 00000010 ]
+
+        * bitcount akilan2 - returns 2 [ 03 - 00000011 ]
+
     # Publish & Subscribe
 
         * open 2 redis cli
