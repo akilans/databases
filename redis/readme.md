@@ -264,6 +264,7 @@
 
         * bitcount akilan2 - returns 2 [ 03 - 00000011 ]
 
+
     # Publish & Subscribe
 
         * open 2 redis cli
@@ -271,4 +272,19 @@
         * publish my-channel "Hello from terminal1" - Send message to all subscribers
         * psubscribe my-ch* - subscribe with wild card pattern
         * publish my-*  - publish with wild card pattern
+        * pubsub channels * - list al the chananels
+        * pubsub numsub ch-? ch-1 ch-2 - Returns number of subsribers for each channel
+        * pubsub numpat - number of pattern subscribers
+        
+    # Geospatial
+
+        * It is a sorted sets
+        * geoadd tenkasi LAT LONG "Tenkasi Railway station"
+        * geoadd tenkasi LAT LONG "Tenkasi Temple"
+        * zrange tenkasi 0 -1 withscores
+        * LAT & LONG get hashed by redis. 52 bits used to store hashed value
+        * geopos tenkasi "Tenkasi Railway station" - returns LAT & LONG for the location
+        * geohash tenkasi "Tenkasi Railway station" - returns hash value of location
+        * geodist tenkasi "Tenkasi Railway station" "Tenkasi Temple" [m|ft|km|mi]- Returns  the distance between two places
+        * 
 
