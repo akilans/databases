@@ -103,7 +103,7 @@
             5) "Akilan"
         * lpop friends - removes kumar from the list - Last inserted value
         * rpush friends kumar - Add kumar at last
-        * rpop friends - removes kumar [ last in the list]
+        * rpop friends - removes Akilan [ first in the list]
         * llen friends - returns the length of the list
         * lindex friends 2 - Returns alex
         * lrange friends 0 -1 - returns all the values in the list
@@ -173,7 +173,7 @@
             2) "Alex"
             3) "Annachi"
             4) "Jegan"
-            5) "Kumar"Needs
+            5) "Kumar"
         * ltrim friends 0 2 - Keep only top 3 friends
         * lrange friends 0 -1
             1) "Akilan"
@@ -252,7 +252,7 @@
 
         * bitfield akilan set u8 #1 3
 
-        * bitfield akilan1 set u8 #1 2s
+        * bitfield akilan1 set u8 #1 2
 
         * bitpos akilan 1 - returns 14 [ 00000000 00000011 ]  offset not #0 , here #1 [ 16 bit data - from position 14 , bit 1 starts ]
 
@@ -286,5 +286,3 @@
         * geopos tenkasi "Tenkasi Railway station" - returns LAT & LONG for the location
         * geohash tenkasi "Tenkasi Railway station" - returns hash value of location
         * geodist tenkasi "Tenkasi Railway station" "Tenkasi Temple" [m|ft|km|mi]- Returns  the distance between two places
-        * 
-
